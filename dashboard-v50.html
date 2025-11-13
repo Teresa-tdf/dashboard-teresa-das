@@ -1038,13 +1038,13 @@
                         this.app.logger.log(`✅ Weekly: "${matches.weekly.name}" (${matches.weekly.method})`, 'success');
                     }
 
-                    // STEP 5: Build ranges
+                    // STEP 5: Build ranges (A:BZ = fino a 78 colonne)
                     const ranges = [
-                        `'${matches.lead.name}'!A:Z`,
-                        `'${matches.campaigns.name}'!A:Z`
+                        `'${matches.lead.name}'!A:BZ`,
+                        `'${matches.campaigns.name}'!A:BZ`
                     ];
-                    if (matches.sales.found) ranges.push(`'${matches.sales.name}'!A:Z`);
-                    if (matches.weekly.found) ranges.push(`'${matches.weekly.name}'!A:Z`);
+                    if (matches.sales.found) ranges.push(`'${matches.sales.name}'!A:BZ`);
+                    if (matches.weekly.found) ranges.push(`'${matches.weekly.name}'!A:BZ`);
 
                     this.app.logger.log(`📥 Caricamento ${ranges.length} fogli...`, 'info');
 
