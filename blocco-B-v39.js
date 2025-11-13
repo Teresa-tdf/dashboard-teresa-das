@@ -678,12 +678,20 @@ class DataProcessor {
     processLead(leadDataRaw) {
         if (!leadDataRaw || leadDataRaw.length < 2) return [];
         const [headers, ...rows] = leadDataRaw;
-        const getIndex = (terms) => headers.findIndex(h => terms.some(term => h.toLowerCase().includes(term.toLowerCase())));
-        const valoreVendutoIndex = headers.findIndex(h => h === 'Valore del Venduto');
+
+        // ⚠️ IMPORTANTE: Cerca solo nelle PRIME 40 colonne (le colonne con i dati reali)
+        // Le colonne duplicate (45-46) sono vuote e servono per altri calcoli
+        const getIndex = (terms) => headers.findIndex((h, i) => i < 40 && terms.some(term => h.toLowerCase().includes(term.toLowerCase())));
+        const vendutoIndex = headers.findIndex((h, i) => i < 40 && h === 'Venduto');
+        const valoreVendutoIndex = headers.findIndex((h, i) => i < 40 && h === 'Valore del Venduto');
+
         const indices = {
-            contattato: getIndex(['contattato']), offerta: getIndex(['offerta']), venduto: getIndex(['venduto']),
+            contattato: getIndex(['contattato']),
+            offerta: getIndex(['sviluppata offerta', 'offerta']),
+            venduto: vendutoIndex >= 0 ? vendutoIndex : getIndex(['venduto']),
             valore: valoreVendutoIndex >= 0 ? valoreVendutoIndex : getIndex(['valore']),
-            fonte: getIndex(['fonte']), data: getIndex(['data richiesta', 'data contatto'])
+            fonte: getIndex(['fonte']),
+            data: getIndex(['data richiesta', 'data contatto'])
         };
         return rows.map(row => {
             const contattato = (row[indices.contattato] || '').toString().trim().toLowerCase();

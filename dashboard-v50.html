@@ -1780,15 +1780,22 @@ class DataProcessor {
             this.app.logger.log(`  [${i}] "${h}"`, 'info');
         });
 
-        const getIndex = (terms) => headers.findIndex(h => terms.some(term => h.toLowerCase().includes(term.toLowerCase())));
-        const valoreVendutoIndex = headers.findIndex(h => h === 'Valore del Venduto');
+        // ⚠️ IMPORTANTE: Cerca solo nelle PRIME 40 colonne (le colonne con i dati reali)
+        // Le colonne duplicate (45-46) sono vuote e servono per altri calcoli
+        const getIndex = (terms) => headers.findIndex((h, i) => i < 40 && terms.some(term => h.toLowerCase().includes(term.toLowerCase())));
+        const vendutoIndex = headers.findIndex((h, i) => i < 40 && h === 'Venduto');
+        const valoreVendutoIndex = headers.findIndex((h, i) => i < 40 && h === 'Valore del Venduto');
 
-        this.app.logger.log(`🔍 valoreVendutoIndex (exact "Valore del Venduto"): ${valoreVendutoIndex}`, valoreVendutoIndex >= 0 ? 'success' : 'warning');
+        this.app.logger.log(`🔍 vendutoIndex (exact "Venduto", primi 40): ${vendutoIndex}`, vendutoIndex >= 0 ? 'success' : 'warning');
+        this.app.logger.log(`🔍 valoreVendutoIndex (exact "Valore del Venduto", primi 40): ${valoreVendutoIndex}`, valoreVendutoIndex >= 0 ? 'success' : 'warning');
 
         const indices = {
-            contattato: getIndex(['contattato']), offerta: getIndex(['offerta']), venduto: getIndex(['venduto']),
+            contattato: getIndex(['contattato']),
+            offerta: getIndex(['sviluppata offerta', 'offerta']),
+            venduto: vendutoIndex >= 0 ? vendutoIndex : getIndex(['venduto']),
             valore: valoreVendutoIndex >= 0 ? valoreVendutoIndex : getIndex(['valore']),
-            fonte: getIndex(['fonte']), data: getIndex(['data richiesta', 'data contatto'])
+            fonte: getIndex(['fonte']),
+            data: getIndex(['data richiesta', 'data contatto'])
         };
 
         this.app.logger.log(`📌 INDICI TROVATI:`, 'info');
