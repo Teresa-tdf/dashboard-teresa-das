@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    <!-- <� GOOGLE SHEETS API -->
+    <!-- <€ GOOGLE SHEETS API -->
     <script async defer src="https://apis.google.com/js/api.js?onload=handleClientLoad"></script>
     <script async defer src="https://accounts.google.com/gsi/client"></script>
 
@@ -108,7 +108,7 @@
             <div class="flex items-center justify-between flex-wrap gap-4">
                 <div class="flex items-center">
                     <i class="fas fa-chart-line text-3xl mr-3"></i>
-                    <span class="text-3xl mr-3"><�</span>
+                    <span class="text-3xl mr-3">🎯</span>
                     <div>
                         <h1 class="text-2xl font-bold">Dashboard v50 - Centro di Comando CRM</h1>
                         <p class="text-purple-200 text-sm">Google Sheets API Real-time (Test Version)</p>
@@ -119,7 +119,7 @@
                         <i class="fas fa-file-pdf mr-2"></i>
                         Esporta Dashboard
                     </button>
-                    <button id="toggleDebug" class="bg-red-500 text-white px-3 py-1 rounded text-sm">=� Debug</button>
+                    <button id="toggleDebug" class="bg-red-500 text-white px-3 py-1 rounded text-sm">🔴 Debug</button>
                     <div id="authStatus" class="status-indicator bg-red-500/80 px-3 py-1 rounded-full text-sm text-white">
                         <i class="fas fa-lock"></i>
                         API Non Connessa
@@ -148,7 +148,7 @@
     <!-- DEBUG PANEL -->
     <div id="debugPanel" class="container mx-auto px-4 py-2" style="display: none;">
         <div class="debug-panel">
-            <h3 class="debug-success">=� DEBUG CONSOLE - DASHBOARD V50 (API ONLY)</h3>
+            <h3 class="debug-success">🛠️ DEBUG CONSOLE - DASHBOARD V50 (API ONLY)</h3>
             <div id="debugContent">
                 <div class="debug-section">Sistema inizializzato. In attesa di autenticazione...</div>
             </div>
@@ -177,7 +177,7 @@
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-xl shadow-2xl max-w-6xl w-full modal-content">
                 <div class="flex justify-between items-center p-6 border-b border-gray-200">
-                    <h3 class="text-xl font-bold text-gray-800" id="performanceModalTitle">=� Performance Dettagliata per Fonte</h3>
+                    <h3 class="text-xl font-bold text-gray-800" id="performanceModalTitle">💎 Performance Dettagliata per Fonte</h3>
                     <button id="closePerformanceModal" class="text-gray-400 hover:text-gray-600 text-2xl">
                         <i class="fas fa-times"></i>
                     </button>
@@ -196,7 +196,7 @@
             <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                 <h2 class="text-xl font-bold mb-6 flex items-center text-gray-800">
                     <i class="fas fa-bolt text-blue-500 mr-3 text-2xl"></i>
-                    � Caricamento Rapido da Google Sheets API
+                    € Caricamento Rapido da Google Sheets API
                 </h2>
 
                 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-6">
@@ -211,7 +211,7 @@
                             </p>
                         </div>
                         <div class="bg-blue-100 px-3 py-1 rounded-full">
-                            <span class="text-xs font-semibold text-blue-800">MODALIT� TEST V50</span>
+                            <span class="text-xs font-semibold text-blue-800">MODALIT€ TEST V50</span>
                         </div>
                     </div>
 
@@ -235,15 +235,66 @@
                     </div>
 
                     <div class="mt-3 text-xs text-blue-600 bg-blue-100 rounded-lg p-3">
-                        <strong>=� Come ottenere lo Spreadsheet ID:</strong>
+                        <strong>=€ Come ottenere lo Spreadsheet ID:</strong>
                         Apri il tuo Google Sheet e copia l'ID dall'URL:
                         <code class="bg-white px-2 py-1 rounded text-blue-800 font-mono">https://docs.google.com/spreadsheets/d/<strong class="text-pink-600">ID_QUI</strong>/edit</code>
                     </div>
                 </div>
 
+                <!-- 📊 Status Indicators (4 Box come V39) -->
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Report Lead -->
+                    <div id="statusBoxLead" class="bg-gray-50 border-2 border-gray-300 rounded-xl p-4 transition-all">
+                        <h3 class="font-semibold text-gray-600 mb-2 flex items-center">
+                            <i class="fas fa-users mr-2"></i>Report Lead
+                        </h3>
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-circle text-gray-400 mr-2" id="iconLead"></i>
+                            <span id="statusTextLead" class="text-gray-500">In attesa</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1" id="countLead">0 righe</p>
+                    </div>
+
+                    <!-- Report Campagne -->
+                    <div id="statusBoxCampaigns" class="bg-gray-50 border-2 border-gray-300 rounded-xl p-4 transition-all">
+                        <h3 class="font-semibold text-gray-600 mb-2 flex items-center">
+                            <i class="fas fa-bullhorn mr-2"></i>Report Campagne
+                        </h3>
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-circle text-gray-400 mr-2" id="iconCampaigns"></i>
+                            <span id="statusTextCampaigns" class="text-gray-500">In attesa</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1" id="countCampaigns">0 righe</p>
+                    </div>
+
+                    <!-- Report Sales -->
+                    <div id="statusBoxSales" class="bg-gray-50 border-2 border-gray-300 rounded-xl p-4 transition-all">
+                        <h3 class="font-semibold text-gray-600 mb-2 flex items-center">
+                            <i class="fas fa-euro-sign mr-2"></i>Report Sales
+                        </h3>
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-circle text-gray-400 mr-2" id="iconSales"></i>
+                            <span id="statusTextSales" class="text-gray-500">Opzionale</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1" id="countSales">-</p>
+                    </div>
+
+                    <!-- Report Weekly -->
+                    <div id="statusBoxWeekly" class="bg-gray-50 border-2 border-gray-300 rounded-xl p-4 transition-all">
+                        <h3 class="font-semibold text-gray-600 mb-2 flex items-center">
+                            <i class="fas fa-calendar-week mr-2"></i>Report Weekly
+                        </h3>
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-circle text-gray-400 mr-2" id="iconWeekly"></i>
+                            <span id="statusTextWeekly" class="text-gray-500">Opzionale</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-1" id="countWeekly">-</p>
+                    </div>
+                </div>
+
                 <div class="mt-6 text-center">
                     <button id="processButton" disabled class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg">
-                        =� Elabora Dashboard
+                        ⚡ Elabora Dashboard
                     </button>
                 </div>
             </div>
@@ -255,7 +306,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-xl font-bold flex items-center text-purple-200">
                         <i class="fas fa-filter mr-3 text-2xl text-purple-200"></i>
-                        <� Filtri per l'Analisi
+                        🎛️ Filtri per l'Analisi
                     </h2>
                     <div class="flex items-center space-x-2">
                         <span id="filtersActiveIndicator" class="text-sm text-purple-200 hidden">
@@ -359,7 +410,7 @@
                 <div class="flex justify-between items-center mb-6 flex-wrap gap-2">
                     <h2 class="text-2xl font-bold flex items-center text-gray-800">
                         <i class="fas fa-funnel-dollar text-blue-500 mr-3"></i>
-                        <� Funnel di Conversione
+                        🎯 Funnel di Conversione
                     </h2>
                     <button id="exportFunnelKpi" class="section-export-btn bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-semibold text-sm py-2 px-4 rounded-full shadow-sm" title="Esporta questa sezione in PDF">
                         <i class="fas fa-file-pdf mr-2"></i>Esporta PDF
@@ -448,7 +499,7 @@
                 <div class="flex justify-between items-center mb-6 flex-wrap gap-2">
                     <h2 class="text-2xl font-bold flex items-center text-gray-800">
                         <i class="fas fa-chart-line text-green-500 mr-3"></i>
-                        =� Performance Economica
+                        💰 Performance Economica
                     </h2>
                     <button id="exportEconomicKpi" class="section-export-btn bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-semibold text-sm py-2 px-4 rounded-full shadow-sm" title="Esporta questa sezione in PDF">
                         <i class="fas fa-file-pdf mr-2"></i>Esporta PDF
@@ -460,11 +511,11 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-green-100 text-sm mb-2 font-medium">Valore Totale Venduto</p>
-                                <h2 class="text-4xl font-bold" id="kpiTotalValue">� 0</h2>
+                                <h2 class="text-4xl font-bold" id="kpiTotalValue">€ 0</h2>
                             </div>
                             <div class="text-right">
                                 <p class="text-green-100 text-sm mb-2 font-medium">Valore Medio Vendita (AOV)</p>
-                                <h3 class="text-2xl font-semibold" id="kpiAvgValue">� 0</h3>
+                                <h3 class="text-2xl font-semibold" id="kpiAvgValue">€ 0</h3>
                             </div>
                         </div>
                     </div>
@@ -476,7 +527,7 @@
                 <div class="flex justify-between items-center mb-6 flex-wrap gap-2">
                     <h2 class="text-2xl font-bold flex items-center text-gray-800">
                         <i class="fas fa-bullseye text-red-500 mr-3"></i>
-                        =� Efficienza Pubblicitaria
+                        📊 Efficienza Pubblicitaria
                     </h2>
                     <button id="exportAdvertisingKpi" class="section-export-btn bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-semibold text-sm py-2 px-4 rounded-full shadow-sm" title="Esporta questa sezione in PDF">
                         <i class="fas fa-file-pdf mr-2"></i>Esporta PDF
@@ -489,7 +540,7 @@
                             <i class="fas fa-euro-sign text-blue-500 text-3xl"></i>
                             <span class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full font-medium">Spesa</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-blue-600" id="kpiAdSpend">� 0</h3>
+                        <h3 class="text-2xl font-bold text-blue-600" id="kpiAdSpend">€ 0</h3>
                         <p class="text-gray-600 text-sm font-medium">Spesa Pubblicitaria</p>
                     </div>
 
@@ -509,7 +560,7 @@
                             <i class="fas fa-dollar-sign text-purple-500 text-3xl"></i>
                             <span class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full font-medium">Valore</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-purple-600" id="kpiContactValue">� 0</h3>
+                        <h3 class="text-2xl font-bold text-purple-600" id="kpiContactValue">€ 0</h3>
                         <p class="text-gray-600 text-sm font-medium">Valore del Contatto</p>
                     </div>
 
@@ -519,7 +570,7 @@
                             <i class="fas fa-mouse-pointer text-orange-500 text-3xl"></i>
                             <span class="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded-full font-medium">CPC</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-orange-600" id="kpiCPC">� 0</h3>
+                        <h3 class="text-2xl font-bold text-orange-600" id="kpiCPC">€ 0</h3>
                         <p class="text-gray-600 text-sm font-medium">Costo per Contatto</p>
                     </div>
 
@@ -529,7 +580,7 @@
                             <i class="fas fa-user-check text-yellow-500 text-3xl"></i>
                             <span class="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full font-medium">CPL</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-yellow-600" id="kpiCPL">� 0</h3>
+                        <h3 class="text-2xl font-bold text-yellow-600" id="kpiCPL">€ 0</h3>
                         <p class="text-gray-600 text-sm font-medium">Costo per Lead</p>
                     </div>
 
@@ -539,7 +590,7 @@
                             <i class="fas fa-file-signature text-indigo-500 text-3xl"></i>
                             <span class="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full font-medium">CPO</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-indigo-600" id="kpiCPO">� 0</h3>
+                        <h3 class="text-2xl font-bold text-indigo-600" id="kpiCPO">€ 0</h3>
                         <p class="text-gray-600 text-sm font-medium">Costo per Offerta</p>
                     </div>
 
@@ -549,7 +600,7 @@
                             <i class="fas fa-eye text-pink-500 text-3xl"></i>
                             <span class="text-xs bg-pink-100 text-pink-600 px-2 py-1 rounded-full font-medium">CPV</span>
                         </div>
-                        <h3 class="text-2xl font-bold text-pink-600" id="kpiCPV">� 0</h3>
+                        <h3 class="text-2xl font-bold text-pink-600" id="kpiCPV">€ 0</h3>
                         <p class="text-gray-600 text-sm font-medium">Costo per Vendita</p>
                     </div>
                 </div>
@@ -560,7 +611,7 @@
                 <!-- Funnel Chart -->
                 <div id="funnelChartSection" class="bg-white rounded-xl shadow-lg border border-gray-100">
                     <div class="gradient-bg text-white p-4 rounded-t-xl flex justify-between items-center">
-                        <h3 class="text-xl font-bold">=� Funnel di Conversione</h3>
+                        <h3 class="text-xl font-bold">📈 Funnel di Conversione</h3>
                         <button id="exportFunnelChart" class="section-export-btn bg-white/20 hover:bg-white/30 text-white font-semibold text-sm py-1 px-3 rounded-full" title="Esporta grafico in PDF">
                             <i class="fas fa-file-pdf mr-2"></i>Esporta PDF
                         </button>
@@ -574,7 +625,7 @@
                 <div id="conversionChartSection" class="bg-white rounded-xl shadow-lg border border-gray-100">
                     <div class="gradient-bg text-white p-4 rounded-t-xl flex justify-between items-center">
                         <h3 class="text-xl font-bold flex items-center">
-                            =� Dispersioni e Tassi di Conversione
+                            📉 Dispersioni e Tassi di Conversione
                         </h3>
                         <button id="drillDownBtn" class="text-sm bg-white/20 text-white px-3 py-1 rounded-full hover:bg-white/30 transition-colors">
                             <i class="fas fa-search-plus mr-1"></i>
@@ -696,7 +747,7 @@
                 <div class="bg-white rounded-xl shadow-lg border border-gray-100">
                     <div class="gradient-bg text-white p-4 rounded-t-xl flex justify-between items-center flex-wrap gap-4">
                         <h3 class="text-xl font-bold flex items-center">
-                            =� Andamento del Funnel
+                            📈 Andamento del Funnel
                         </h3>
                         <div class="flex items-center space-x-4">
                             <div class="bg-white/20 p-1 rounded-lg flex items-center space-x-1">
@@ -721,7 +772,7 @@
                 <div class="bg-white rounded-xl shadow-lg border border-gray-100">
                     <div class="gradient-bg text-white p-4 rounded-t-xl flex justify-between items-center flex-wrap gap-4">
                         <h3 class="text-xl font-bold flex items-center">
-                            =� Andamento Economico
+                            💶 Andamento Economico
                         </h3>
                         <div class="flex items-center space-x-4">
                             <div class="bg-white/20 p-1 rounded-lg flex items-center space-x-1">
@@ -746,7 +797,7 @@
                 <div class="bg-white rounded-xl shadow-lg border border-gray-100">
                     <div class="gradient-bg text-white p-4 rounded-t-xl flex justify-between items-center">
                         <h3 class="text-xl font-bold flex items-center">
-                            =� Performance per Fonte - Valore vs Efficienza
+                            📊 Performance per Fonte - Valore vs Efficienza
                         </h3>
                         <button id="performanceDrillDownBtn" class="text-sm bg-white/20 text-white px-3 py-1 rounded-full hover:bg-white/30 transition-colors">
                             <i class="fas fa-search-plus mr-1"></i>
@@ -780,7 +831,7 @@
                 <div class="bg-white rounded-xl shadow-lg border border-gray-100">
                     <div class="gradient-bg text-white p-6 flex items-center justify-between rounded-t-xl">
                         <div class="flex items-center">
-                            <h2 class="text-xl font-bold">=� Performance Dettagliata per Fonte</h2>
+                            <h2 class="text-xl font-bold">💎 Performance Dettagliata per Fonte</h2>
                         </div>
                         <div class="flex space-x-3">
                             <button id="exportCSV" class="export-btn bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm">
@@ -804,7 +855,7 @@
             <div id="insightsPanel" class="mb-8 fade-in">
                 <div class="bg-gradient-to-r from-purple-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
                     <h2 class="text-2xl font-bold mb-4 flex items-center">
-                        >� Insights Strategici
+                        >€ Insights Strategici
                     </h2>
                     <div id="insightsContent" class="space-y-4">
                         <!-- Dinamico -->
@@ -836,7 +887,7 @@
             GHOST_THRESHOLDS: {
                 EXCELLENT: 10, WARNING: 20
             },
-            // <� GOOGLE SHEETS API CONFIGURATION
+            // <€ GOOGLE SHEETS API CONFIGURATION
             API: {
                 API_KEY: 'AIzaSyAUsHCDxnOMq0niHUxcdlyS42Oe_oQIlhE',
                 CLIENT_ID: '28262641465-or41dk7e05fj2gj6eq2g45djgr1v2r0c.apps.googleusercontent.com',
@@ -1075,12 +1126,43 @@
                     this.app.updateStatus(`✅ Caricati ${this.app.data.raw.lead.length} Lead + ${this.app.data.raw.campaigns.length} Campagne`, 'success');
                     this.app.logger.log('✅ Tutti i dati caricati da API!', 'success');
 
+                    // STEP 11: Update status boxes visuals
+                    this.updateStatusBox('Lead', this.app.data.raw.lead.length - 1);
+                    this.updateStatusBox('Campaigns', this.app.data.raw.campaigns.length - 1);
+                    if (matches.sales.found && this.app.data.raw.sales) {
+                        this.updateStatusBox('Sales', this.app.data.raw.sales.length - 1);
+                    }
+                    if (matches.weekly.found && this.app.data.raw.weekly) {
+                        this.updateStatusBox('Weekly', this.app.data.raw.weekly.length - 1);
+                    }
+
                 } catch (error) {
                     this.app.logger.log(`❌ ${error.message}`, 'error');
                     alert(`Errore: ${error.message}`);
                 } finally {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
+                }
+            }
+
+            // Update visual status boxes (4 box colorati come V39)
+            updateStatusBox(type, rowCount) {
+                const box = document.getElementById(`statusBox${type}`);
+                const icon = document.getElementById(`icon${type}`);
+                const text = document.getElementById(`statusText${type}`);
+                const count = document.getElementById(`count${type}`);
+
+                if (box && icon && text && count) {
+                    // Cambia colore box in verde
+                    box.className = 'bg-green-50 border-2 border-green-300 rounded-xl p-4 transition-all';
+                    // Cambia icona in verde con check
+                    icon.className = 'fas fa-check-circle text-green-500 mr-2';
+                    // Cambia testo
+                    text.textContent = 'Caricato ✓';
+                    text.className = 'text-green-600 font-semibold';
+                    // Mostra conteggio
+                    count.textContent = `${rowCount} righe`;
+                    count.className = 'text-xs text-green-600 mt-1';
                 }
             }
         }
