@@ -119,9 +119,8 @@
                         <i class="fas fa-file-pdf mr-2"></i>
                         Esporta Dashboard Completa
                     </button>
-                    <button id="toggleDebug" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-all">
-                        <i class="fas fa-bug mr-2"></i>
-                        Debug
+                    <button id="toggleDebug" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-medium flex items-center shadow-sm transition-all">
+                        🛠️ Debug
                     </button>
                     <div id="authStatus" class="status-indicator bg-red-500/80 px-3 py-1 rounded-full text-sm text-white">
                         <i class="fas fa-lock"></i>
@@ -1124,7 +1123,7 @@
                     localStorage.setItem('dashboard_spreadsheet_id', spreadsheetId);
                     this.lastSpreadsheetId = spreadsheetId;
 
-                    this.app.updateStatus('✅ Dashboard Elaborata con successo', 'success');
+                    this.app.updateStatus(`✅ Caricati ${this.app.data.raw.lead.length} Lead + ${this.app.data.raw.campaigns.length} Campagne`, 'success');
                     this.app.logger.log('✅ Tutti i dati caricati da API!', 'success');
 
                     // STEP 11: Update status boxes visuals
@@ -1342,7 +1341,7 @@ class DashboardApp {
             this.filterManager.populate();
             this.render();
             this.showFilters();
-            this.updateStatus('Dashboard elaborata con successo', 'success');
+            this.updateStatus('✅ Dashboard Elaborata con successo', 'success');
             document.getElementById('dateTimeDisplay').classList.remove('hidden');
 
             document.getElementById('exportFullDashboard').disabled = false;
